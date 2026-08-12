@@ -17,19 +17,35 @@ config:
 
   holy_shock_healing:
     section: "Single Target Healing"
-    label: "Holy shock HP%"
+    label: "Holy shock HP% (none-tank)"
     type: slider
     min: 1
     max: 100
     default: 90
 
+  holy_shock_healing_tank:
+    section: "Single Target Healing"
+    label: "Holy shock HP% (tank)"
+    type: slider
+    min: 1
+    max: 100
+    default: 75 
+
   st_healing:
     section: "Single Target Healing"
-    label: "ST Healing HP% Word of Glory, Flash Heal etc."
+    label: "ST Healing HP% Word of Glory, Flash Heal etc.(NONE-TANK)"
     type: slider
     min: 1
     max: 100
     default: 80
+
+  st_healing_tank:
+    section: "Single Target Healing"
+    label: "ST Healing HP% Word of Glory, Flash Heal etc.(TANK)"
+    type: slider
+    min: 1
+    max: 100
+    default: 65
 
   aoe_divine_tol_healing:
     section: "AOE Healing"
@@ -113,7 +129,7 @@ config:
 
 variables:
 
-  lod_herald: group.count(cycle.health.effective.pct<=config.aoe_healing&cycle.range<=40)>=config.aoe_healing_targets&group.count(cycle.buff.beacon_of_virtue.up)<=2
+  lod_herald: group.count(!cycle.tank&cycle.health.effective.pct<=config.aoe_healing&cycle.range<=40)>=config.aoe_healing_targets&group.count(cycle.buff.beacon_of_virtue.up)<=2
   
 
   trinket1_living_silk: trinket_1.id=242393
@@ -135,10 +151,13 @@ lists:
     - cooldown.,if=group.count(cycle.health.effective.pct<=60)>=4
 
   mouseover_friendly:
-    #- lay_on_hands.mouseover,use_off_gcd=1,if=mouseover.health.pct<=25&mouseover.friendly
-    - eternal_flame.mouseover,if=mouseover.health.effective.pct<=100&mouseover.friendly
-    - word_of_glory.mouseover,if=mouseover.health.effective.pct<=100&mouseover.friendly
-    - divine_toll.mouseover,if=mouseover.health.effective.pct<=100&holy_power.deficit>=5&mouseover.friendly
+    - lay_on_hands.focus_mouseover,range_check=mouseover,use_off_gcd=1,if=mouseover.health.pct<=30&mouseover.friendly&lastcast.holy_light>gcd*0.30
+    - flash_of_light.focus_mouseover,range_check=mouseover,if=mouseover.health.effective.pct<=100&holy_power.deficit>=1&buff.infusion_of_light.up&lastcast.holy_light>gcd*0.30
+    - holy_shock.focus_mouseover,range_check=mouseover,if=mouseover.health.effective.pct<=100&mouseover.friendly&holy_power.deficit>=3&lastcast.holy_light>gcd*0.30
+    - eternal_flame.focus_mouseover,range_check=mouseover,if=mouseover.health.effective.pct<=100&mouseover.friendly&lastcast.holy_light>gcd*0.30
+    - word_of_glory.focus_mouseover,range_check=mouseover,if=mouseover.health.effective.pct<=100&mouseover.friendly&lastcast.holy_light>gcd*0.30
+    - divine_toll.focus_mouseover,range_check=mouseover,if=mouseover.health.effective.pct<=100&holy_power.deficit>=5&mouseover.friendly&lastcast.holy_light>gcd*0.30
+    - holy_light.focus_mouseover,range_check=mouseover,if=mouseover.health.effective.pct<=100&holy_power.deficit>=1&lastcast.holy_light>gcd*0.30
 
   trinkets:
     - trinket_1,if=var.trinket1_living_silk&trinket_1.ready&(buff.avenging_wrath.up|buff.avenging_crusader.up)
@@ -229,7 +248,7 @@ lists:
     - shadowmeld,if=target.threat>=3
 
     # Mouseover Healing
-    - call_action_list,name=mouseover_friendly,if=mouseover.npcid
+    - call_action_list,name=mouseover_friendly
     
 
     # Trinkets / Spenders / Generators
@@ -259,13 +278,13 @@ lists:
     - judgment,if=holy_power.deficit>=2&target.enemy&buff.infusion_of_light.up&var.lod_herald&lastcast.holy_light>gcd*0.30
 
     # Major ST Healing
-    - holy_light,cycle=members,if=cycle.health.effective.pct<=config.st_healing&buff.infusion_of_light.down&holy_power.deficit>=1&buff.hand_of_divinity.up&lastcast.holy_light>gcd*0.30
-    - word_of_glory,cycle=members,if=cycle.health.effective.pct<=config.st_healing&buff.divine_purpose.up&lastcast.holy_light>gcd*0.30
-    - eternal_flame,cycle=members,if=cycle.health.effective.pct<=config.st_healing&buff.divine_purpose.up&lastcast.holy_light>gcd*0.30
-    - flash_of_light,cycle=members,if=cycle.health.effective.pct<=config.st_healing&holy_power.deficit>=1&buff.infusion_of_light.up&lastcast.holy_light>gcd*0.30&!var.lod_herald
-    - holy_shock,cycle=members,if=cycle.health.effective.pct<=config.st_healing&holy_power.deficit>=1&cooldown.holy_shock.charges>=1.8&lastcast.holy_light>gcd*0.30
-    - word_of_glory,cycle=members,if=cycle.health.effective.pct<=config.st_healing&lastcast.holy_light>gcd*0.30
-    - eternal_flame,cycle=members,if=cycle.health.effective.pct<=config.st_healing&lastcast.holy_light>gcd*0.30
+    - holy_light,cycle=members,if=(cycle.tank&cycle.health.pct<=config.st_healing_tank|!cycle.tank&cycle.health.pct<=config.st_healing)&buff.infusion_of_light.down&holy_power.deficit>=1&buff.hand_of_divinity.up&lastcast.holy_light>gcd*0.30
+    - word_of_glory,cycle=members,if=(cycle.tank&cycle.health.pct<=config.st_healing_tank|!cycle.tank&cycle.health.pct<=config.st_healing)&buff.divine_purpose.up&lastcast.holy_light>gcd*0.30
+    - eternal_flame,cycle=members,if=(cycle.tank&cycle.health.pct<=config.st_healing_tank|!cycle.tank&cycle.health.pct<=config.st_healing)&buff.divine_purpose.up&lastcast.holy_light>gcd*0.30
+    - flash_of_light,cycle=members,if=(cycle.tank&cycle.health.pct<=config.st_healing_tank|!cycle.tank&cycle.health.pct<=config.st_healing)&holy_power.deficit>=1&buff.infusion_of_light.up&lastcast.holy_light>gcd*0.30&!var.lod_herald
+    - holy_shock,cycle=members,if=(cycle.tank&cycle.health.pct<=config.st_healing_tank|!cycle.tank&cycle.health.pct<=config.st_healing)&holy_power.deficit>=1&cooldown.holy_shock.charges>=1.8&lastcast.holy_light>gcd*0.30
+    - word_of_glory,cycle=members,if=(cycle.tank&cycle.health.pct<=config.st_healing_tank|!cycle.tank&cycle.health.pct<=config.st_healing)&lastcast.holy_light>gcd*0.30
+    - eternal_flame,cycle=members,if=(cycle.tank&cycle.health.pct<=config.st_healing_tank|!cycle.tank&cycle.health.pct<=config.st_healing)&lastcast.holy_light>gcd*0.30
 
     #Avenging Crusader
 
@@ -291,11 +310,11 @@ lists:
     # Rotation
     - sacred_weapon,range_check=none,if=holy_power.deficit>=3&cooldown.sacred_weapon.charges_fractional>=2&lastcast.holy_light>gcd*0.30
     - holy_bulwark,range_check=none,if=holy_power.deficit>=3&cooldown.holy_bulwark.charges_fractional>=2&lastcast.holy_light>gcd*0.30
-    - holy_shock,cycle=members,if=cycle.health.effective.pct<=config.holy_shock_healing&holy_power.deficit>=1&cooldown.holy_shock.charges>=1.8&lastcast.holy_light>gcd*0.30
+    - holy_shock,cycle=members,if=(cycle.tank&cycle.health.pct<=config.holy_shock_healing_tank|!cycle.tank&cycle.health.pct<=config.holy_shock_healing)&holy_power.deficit>=1&cooldown.holy_shock.charges>=1.8&lastcast.holy_light>gcd*0.30
     - holy_shock,if=holy_power.deficit>=1&cooldown.holy_shock.charges>=1.8&target.enemy&lastcast.holy_light>gcd*0.30&config.holy_shock_dps
     - hammer_of_wrath,if=((holy_power.deficit>=1&buff.infusion_of_light.down)|holy_power.deficit>=2)&target.enemy&lastcast.holy_light>gcd*0.30
     - judgment,if=((holy_power.deficit>=1&buff.infusion_of_light.down)|holy_power.deficit>=2)&target.enemy&lastcast.holy_light>gcd*0.30
-    - holy_shock,cycle=members,if=cycle.health.effective.pct<=config.holy_shock_healing&holy_power.deficit>=1&lastcast.holy_light>gcd*0.30
+    - holy_shock,cycle=members,if=(cycle.tank&cycle.health.pct<=config.holy_shock_healing_tank|!cycle.tank&cycle.health.pct<=config.holy_shock_healing)&holy_power.deficit>=1&lastcast.holy_light>gcd*0.30
     - holy_shock,if=holy_power.deficit>=1&target.enemy&holy_power.deficit>=1&lastcast.holy_light>gcd*0.30&config.holy_shock_dps
     - holy_light,cycle=members,if=cycle.health.effective.pct<=config.filler_holy_light_healing&buff.infusion_of_light.down&holy_power.deficit>=3&talent.divine_overload.enabled&lastcast.holy_light>gcd*0.30
 
