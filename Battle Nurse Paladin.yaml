@@ -257,18 +257,20 @@ lists:
     # Beacon of Virtue
     - beacon_of_virtue,if=group.count(cycle.health.effective.pct<=config.virtue_healing)>=config.virtue_healing_targets&lastcast.holy_light>gcd*0.30
 
+    # making sure holy shock keeps rolling
+    - holy_shock,cycle=members,if=(cycle.tank&cycle.health.pct<=config.holy_shock_healing_tank|!cycle.tank&cycle.health.pct<=config.holy_shock_healing)&holy_power.deficit>=1&cooldown.holy_shock.charges>=1.8&lastcast.holy_light>gcd*0.30
+
     # Emergency Healing
     - holy_light,cycle=members,if=cycle.health.pct<=config.emergency_healing&buff.infusion_of_light.down&holy_power.deficit>=1&buff.hand_of_divinity.up&lastcast.holy_light>gcd*0.30
     - word_of_glory,cycle=members,if=cycle.health.pct<=config.emergency_healing&buff.divine_purpose.up&lastcast.holy_light>gcd*0.30
     - eternal_flame,cycle=members,if=cycle.health.pct<=config.emergency_healing&buff.divine_purpose.up&lastcast.holy_light>gcd*0.30
     - flash_of_light,cycle=members,if=cycle.health.pct<=config.emergency_healing&holy_power.deficit>=1&buff.infusion_of_light.up&lastcast.holy_light>gcd*0.30
-    - holy_shock,cycle=members,if=cycle.health.pct<=config.emergency_healing&holy_power.deficit>=1&cooldown.holy_shock.charges>=1.8&lastcast.holy_light>gcd*0.30
     - word_of_glory,cycle=members,if=cycle.health.pct<=config.emergency_healing&lastcast.holy_light>gcd*0.30
     - eternal_flame,cycle=members,if=cycle.health.pct<=config.emergency_healing&lastcast.holy_light>gcd*0.30
     - holy_prism,cycle=members,if=cycle.health.effective.pct<=config.emergency_healing&lastcast.holy_light>gcd*0.30&holy_power.deficit>=3
     - sacred_weapon,range_check=none,if=cycle.health.pct<=config.emergency_healing&holy_power.deficit>=3&buff.hand_of_divinity.down&buff.infusion_of_light.down&buff.divine_purpose.down&lastcast.holy_light>gcd*0.30
     - holy_bulwark,range_check=none,if=cycle.health.pct<=config.emergency_healing&holy_power.deficit>=3&buff.hand_of_divinity.down&buff.infusion_of_light.down&buff.divine_purpose.down&lastcast.holy_light>gcd*0.30
-    - divine_toll,if=group.lowest.health.pct<=config.emergency_healing&lastcast.holy_light>gcd*0.30&holy_power.deficit>=3&(buff.divine_purpose.down|!talent.aurora.enabled)
+    - divine_toll,cycle=members,if=group.lowest.health.pct<=config.emergency_healing&lastcast.holy_light>gcd*0.30&holy_power.deficit>=3&(buff.divine_purpose.down|!talent.aurora.enabled)
     - aura_mastery,if=group.lowest.health.pct<=config.emergency_healing&lastcast.holy_light>gcd*0.30&holy_power.deficit>=3&talent.ringing_of_the_heavens.enabled&(buff.divine_purpose.down|!talent.aurora.enabled)&focus.range<=40&lastcast.holy_light>gcd*0.30
     - holy_light,cycle=members,if=cycle.health.pct<=config.emergency_healing&buff.infusion_of_light.down&holy_power.deficit>=3&talent.divine_overload.enabled&lastcast.holy_light>gcd*0.30
 
@@ -282,7 +284,6 @@ lists:
     - word_of_glory,cycle=members,if=(cycle.tank&cycle.health.pct<=config.st_healing_tank|!cycle.tank&cycle.health.pct<=config.st_healing)&buff.divine_purpose.up&lastcast.holy_light>gcd*0.30
     - eternal_flame,cycle=members,if=(cycle.tank&cycle.health.pct<=config.st_healing_tank|!cycle.tank&cycle.health.pct<=config.st_healing)&buff.divine_purpose.up&lastcast.holy_light>gcd*0.30
     - flash_of_light,cycle=members,if=(cycle.tank&cycle.health.pct<=config.st_healing_tank|!cycle.tank&cycle.health.pct<=config.st_healing)&holy_power.deficit>=1&buff.infusion_of_light.up&lastcast.holy_light>gcd*0.30&!var.lod_herald
-    - holy_shock,cycle=members,if=(cycle.tank&cycle.health.pct<=config.st_healing_tank|!cycle.tank&cycle.health.pct<=config.st_healing)&holy_power.deficit>=1&cooldown.holy_shock.charges>=1.8&lastcast.holy_light>gcd*0.30
     - word_of_glory,cycle=members,if=(cycle.tank&cycle.health.pct<=config.st_healing_tank|!cycle.tank&cycle.health.pct<=config.st_healing)&lastcast.holy_light>gcd*0.30
     - eternal_flame,cycle=members,if=(cycle.tank&cycle.health.pct<=config.st_healing_tank|!cycle.tank&cycle.health.pct<=config.st_healing)&lastcast.holy_light>gcd*0.30
 
@@ -297,13 +298,13 @@ lists:
     - holy_prism,if=group.count(cycle.health.effective.pct<=config.aoe_divine_tol_healing)>=config.aoe_divine_tol__healing_targets&holy_power.deficit>=3&lastcast.holy_light>gcd*0.30
     - sacred_weapon,if=group.count(cycle.health.effective.pct<=config.aoe_divine_tol_healing)>=config.aoe_divine_tol__healing_targets&holy_power.deficit>=3&lastcast.holy_light>gcd*0.30
     - holy_bulwark,if=group.count(cycle.health.effective.pct<=config.aoe_divine_tol_healing)>=config.aoe_divine_tol__healing_targets&holy_power.deficit>=3&lastcast.holy_light>gcd*0.30
-    - divine_toll,if=group.count(cycle.health.effective.pct<=config.aoe_divine_tol_healing)>=config.aoe_divine_tol__healing_targets&holy_power.deficit>=3&(buff.divine_purpose.down|!talent.aurora.enabled)&lastcast.holy_light>gcd*0.30
+    - divine_toll,cycle=members,if=group.count(cycle.health.effective.pct<=config.aoe_divine_tol_healing)>=config.aoe_divine_tol__healing_targets&holy_power.deficit>=3&(buff.divine_purpose.down|!talent.aurora.enabled)&lastcast.holy_light>gcd*0.30
     - aura_mastery,if=group.count(cycle.health.effective.pct<=config.aoe_divine_tol_healing)>=config.aoe_divine_tol__healing_targets&holy_power.deficit>=3&talent.ringing_of_the_heavens.enabled&(buff.divine_purpose.down|!talent.aurora.enabled)&lastcast.holy_light>gcd*0.30
     #st
     - holy_prism,cycle=members,if=cycle.health.effective.pct<=config.divine_toll_healing&lastcast.holy_light>gcd*0.30&holy_power.deficit>=3
     - sacred_weapon,if=group.lowest.health.effective.pct<=config.divine_toll_healing&lastcast.holy_light>gcd*0.30&holy_power.deficit>=3
     - holy_bulwark,if=group.lowest.health.effective.pct<=config.divine_toll_healing&lastcast.holy_light>gcd*0.30&holy_power.deficit>=3
-    - divine_toll,if=group.lowest.health.effective.pct<=config.divine_toll_healing&lastcast.holy_light>gcd*0.30&holy_power.deficit>=3&(buff.divine_purpose.down|!talent.aurora.enabled)
+    - divine_toll,cycle=members,if=group.lowest.health.effective.pct<=config.divine_toll_healing&lastcast.holy_light>gcd*0.30&holy_power.deficit>=3&(buff.divine_purpose.down|!talent.aurora.enabled)
     - aura_mastery,if=group.lowest.health.effective.pct<=config.divine_toll_healing&lastcast.holy_light>gcd*0.30&holy_power.deficit>=3&talent.ringing_of_the_heavens.enabled&(buff.divine_purpose.down|!talent.aurora.enabled)
     - holy_light,cycle=members,if=cycle.health.effective.pct<=config.need_holy_light_healing&buff.infusion_of_light.down&holy_power.deficit>=3&talent.divine_overload.enabled&lastcast.holy_light>gcd*0.30
     
