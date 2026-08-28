@@ -1,4 +1,4 @@
-version: 1.0
+version: 1.1
 author: Rollfacedk
 spec: 65
 name: Battle Nurse Paladin
@@ -139,9 +139,9 @@ variables:
 
 lists:
   emergency:
-    - divine_shield,interrupt=true,if=health.effective.pct<=30
+    - divine_shield,interrupt=true,if=health.pct<=30
     - lay_on_hands.focus,interrupt=true,if=focus.friendly&focus.health.pct<=25&focus.range<=40&player.combat&lastcast.holy_light>gcd*0.30
-    - divine_protection,if=buff.divine_shield.down&health.effective.pct<=35
+    - divine_protection,if=buff.divine_shield.down&health.pct<=35
     - blessing_of_sacrifice,cycle=tanks,if=cycle.health.pct<=45
 
   major_cooldowns:
@@ -185,7 +185,7 @@ lists:
     - call_action_list,name=auto_heal
 
     # Out of Combat
-    - rite_of_sanctification,range_check=none,if=!player.combat&!buff.433550.up&lastcast.rite_of_sanctification>=10
+    - rite_of_sanctification,range_check=none,if=!player.combat&!buff.433550.up&lastcast.rite_of_sanctification>=2700
     - devotion_aura,if=!player.combat&buff.devotion_aura.down
     - beacon_of_light,cycle=healers,if=!player.combat&group.count(cycle.buff.beacon_of_light.up)=0
     - beacon_of_faith,cycle=dps,if=!player.combat&talent.beacon_of_faith.enabled&group.count(cycle.buff.beacon_of_faith.up)=0
@@ -309,9 +309,8 @@ lists:
     - holy_light,cycle=members,if=cycle.health.effective.pct<=config.need_holy_light_healing&buff.infusion_of_light.down&holy_power.deficit>=3&talent.divine_overload.enabled&lastcast.holy_light>gcd*0.30
     
     # Rotation
-    - sacred_weapon,range_check=none,if=holy_power.deficit>=3&cooldown.sacred_weapon.charges_fractional>=2&lastcast.holy_light>gcd*0.30
-    - holy_bulwark,range_check=none,if=holy_power.deficit>=3&cooldown.holy_bulwark.charges_fractional>=2&lastcast.holy_light>gcd*0.30
-    - holy_shock,cycle=members,if=(cycle.tank&cycle.health.pct<=config.holy_shock_healing_tank|!cycle.tank&cycle.health.pct<=config.holy_shock_healing)&holy_power.deficit>=1&cooldown.holy_shock.charges>=1.8&lastcast.holy_light>gcd*0.30
+    - sacred_weapon,range_check=none,if=holy_power.deficit>=3&cooldown.sacred_weapon.charges_fractional>=1.8&lastcast.holy_light>gcd*0.30
+    - holy_bulwark,range_check=none,if=holy_power.deficit>=3&cooldown.holy_bulwark.charges_fractional>=1.8&lastcast.holy_light>gcd*0.30
     - holy_shock,if=holy_power.deficit>=1&cooldown.holy_shock.charges>=1.8&target.enemy&lastcast.holy_light>gcd*0.30&config.holy_shock_dps
     - hammer_of_wrath,if=((holy_power.deficit>=1&buff.infusion_of_light.down)|holy_power.deficit>=2)&target.enemy&lastcast.holy_light>gcd*0.30
     - judgment,if=((holy_power.deficit>=1&buff.infusion_of_light.down)|holy_power.deficit>=2)&target.enemy&lastcast.holy_light>gcd*0.30
@@ -321,7 +320,7 @@ lists:
 
 
     # filler dps
-    - shield_of_the_righteous,if=target.in_melee&target.enemy&(holy_power>=5)&lastcast.holy_light>gcd*0.30
+    - shield_of_the_righteous,if=target.in_melee&target.enemy&lastcast.holy_light>gcd*0.30
     - consecration,if=lastcast.holy_light>gcd*0.30&target.in_melee
 
 
