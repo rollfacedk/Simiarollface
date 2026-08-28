@@ -1,4 +1,4 @@
-version: 1.1
+version: 1.2
 author: Rollfacedk
 spec: 65
 name: Battle Nurse Paladin
@@ -152,12 +152,14 @@ lists:
 
   mouseover_friendly:
     - lay_on_hands.focus_mouseover,range_check=mouseover,use_off_gcd=1,if=mouseover.health.pct<=30&mouseover.friendly&lastcast.holy_light>gcd*0.30
-    - flash_of_light.focus_mouseover,range_check=mouseover,if=mouseover.health.effective.pct<=100&holy_power.deficit>=1&buff.infusion_of_light.up&lastcast.holy_light>gcd*0.30
-    - holy_shock.focus_mouseover,range_check=mouseover,if=mouseover.health.effective.pct<=100&mouseover.friendly&holy_power.deficit>=3&lastcast.holy_light>gcd*0.30
-    - eternal_flame.focus_mouseover,range_check=mouseover,if=mouseover.health.effective.pct<=100&mouseover.friendly&lastcast.holy_light>gcd*0.30
-    - word_of_glory.focus_mouseover,range_check=mouseover,if=mouseover.health.effective.pct<=100&mouseover.friendly&lastcast.holy_light>gcd*0.30
-    - divine_toll.focus_mouseover,range_check=mouseover,if=mouseover.health.effective.pct<=100&holy_power.deficit>=5&mouseover.friendly&lastcast.holy_light>gcd*0.30
-    - holy_light.focus_mouseover,range_check=mouseover,if=mouseover.health.effective.pct<=100&holy_power.deficit>=1&lastcast.holy_light>gcd*0.30
+    - flash_of_light.focus_mouseover,range_check=mouseover,if=mouseover.health.effective.pct<=99&holy_power.deficit>=1&buff.infusion_of_light.up&lastcast.holy_light>gcd*0.30
+    - holy_shock.focus_mouseover,range_check=mouseover,if=mouseover.health.effective.pct<=99&mouseover.friendly&holy_power.deficit>=3&lastcast.holy_light>gcd*0.30
+    - eternal_flame.focus_mouseover,range_check=mouseover,if=mouseover.health.effective.pct<=99&mouseover.friendly&lastcast.holy_light>gcd*0.30
+    - word_of_glory.focus_mouseover,range_check=mouseover,if=mouseover.health.effective.pct<=99&mouseover.friendly&lastcast.holy_light>gcd*0.30
+    - divine_toll.focus_mouseover,range_check=mouseover,if=mouseover.health.effective.pct<=99&holy_power.deficit>=5&mouseover.friendly&lastcast.holy_light>gcd*0.30
+    - sacred_weapon,range_check=mouseover,if=mouseover.health.effective.pct<=99&lastcast.holy_light>gcd*0.30&holy_power.deficit>=3&mouseover.friendly&mouseover.alive&cooldown.sacred_weapon.charges_fractional>=1.8
+    - holy_bulwark,range_check=mouseover,if=mouseover.health.effective.pct<=99&lastcast.holy_light>gcd*0.30&holy_power.deficit>=3&mouseover.friendly&mouseover.alive&cooldown.holy_bulwark.charges_fractional>=1.8
+    - holy_light.focus_mouseover,range_check=mouseover,if=mouseover.health.effective.pct<=99&holy_power.deficit>=1&lastcast.holy_light>gcd*0.30
 
   trinkets:
     - trinket_1,if=var.trinket1_living_silk&trinket_1.ready&(buff.avenging_wrath.up|buff.avenging_crusader.up)
@@ -248,7 +250,7 @@ lists:
     - shadowmeld,if=target.threat>=3
 
     # Mouseover Healing
-    - call_action_list,name=mouseover_friendly
+    - call_action_list,name=mouseover_friendly,if=mouseover.npcid=133392
     
 
     # Trinkets / Spenders / Generators
