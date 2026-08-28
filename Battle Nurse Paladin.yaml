@@ -187,7 +187,8 @@ lists:
     - call_action_list,name=auto_heal
 
     # Out of Combat
-    - rite_of_sanctification,range_check=none,if=!player.combat&!buff.433550.up&lastcast.rite_of_sanctification>=2700
+    - rite_of_sanctification,range_check=none,if=!player.combat&!buff.rite_of_sanctification.up&lastcast.rite_of_sanctification>=2700
+    - rite_of_adjuration,range_check=none,if=!player.combat&!buff.rite_of_adjuration.up&lastcast.rite_of_adjuration>=2700
     - devotion_aura,if=!player.combat&buff.devotion_aura.down
     - beacon_of_light,cycle=healers,if=!player.combat&group.count(cycle.buff.beacon_of_light.up)=0
     - beacon_of_faith,cycle=dps,if=!player.combat&talent.beacon_of_faith.enabled&group.count(cycle.buff.beacon_of_faith.up)=0
