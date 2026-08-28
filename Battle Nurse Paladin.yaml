@@ -157,8 +157,6 @@ lists:
     - eternal_flame.focus_mouseover,range_check=mouseover,if=mouseover.health.effective.pct<=99&mouseover.friendly&lastcast.holy_light>gcd*0.30
     - word_of_glory.focus_mouseover,range_check=mouseover,if=mouseover.health.effective.pct<=99&mouseover.friendly&lastcast.holy_light>gcd*0.30
     - divine_toll.focus_mouseover,range_check=mouseover,if=mouseover.health.effective.pct<=99&holy_power.deficit>=5&mouseover.friendly&lastcast.holy_light>gcd*0.30
-    - sacred_weapon,range_check=mouseover,if=mouseover.health.effective.pct<=99&lastcast.holy_light>gcd*0.30&holy_power.deficit>=3&mouseover.friendly&mouseover.alive&cooldown.sacred_weapon.charges_fractional>=1.8
-    - holy_bulwark,range_check=mouseover,if=mouseover.health.effective.pct<=99&lastcast.holy_light>gcd*0.30&holy_power.deficit>=3&mouseover.friendly&mouseover.alive&cooldown.holy_bulwark.charges_fractional>=1.8
     - holy_light.focus_mouseover,range_check=mouseover,if=mouseover.health.effective.pct<=99&holy_power.deficit>=1&lastcast.holy_light>gcd*0.30
 
   trinkets:
@@ -187,8 +185,8 @@ lists:
     - call_action_list,name=auto_heal
 
     # Out of Combat
-    - rite_of_sanctification,range_check=none,if=!player.combat&!buff.rite_of_sanctification.up&lastcast.rite_of_sanctification>=2700
-    - rite_of_adjuration,range_check=none,if=!player.combat&!buff.rite_of_adjuration.up&lastcast.rite_of_adjuration>=2700
+    - rite_of_sanctification,range_check=none,if=!player.combat&!buff.433550.up&lastcast.rite_of_sanctification>=2700
+    - rite_of_sanctification,range_check=none,if=!player.combat&!buff.433550.up&lastcast.rite_of_sanctification>=2700
     - devotion_aura,if=!player.combat&buff.devotion_aura.down
     - beacon_of_light,cycle=healers,if=!player.combat&group.count(cycle.buff.beacon_of_light.up)=0
     - beacon_of_faith,cycle=dps,if=!player.combat&talent.beacon_of_faith.enabled&group.count(cycle.buff.beacon_of_faith.up)=0
@@ -312,8 +310,8 @@ lists:
     - holy_light,cycle=members,if=cycle.health.effective.pct<=config.need_holy_light_healing&buff.infusion_of_light.down&holy_power.deficit>=3&talent.divine_overload.enabled&lastcast.holy_light>gcd*0.30
     
     # Rotation
-    - sacred_weapon,range_check=none,if=holy_power.deficit>=3&cooldown.sacred_weapon.charges_fractional>=1.8&lastcast.holy_light>gcd*0.30
-    - holy_bulwark,range_check=none,if=holy_power.deficit>=3&cooldown.holy_bulwark.charges_fractional>=1.8&lastcast.holy_light>gcd*0.30
+    - sacred_weapon,if=holy_power.deficit>=3&cooldown.sacred_weapon.charges_fractional>=1.8&lastcast.holy_light>gcd*0.30
+    - holy_bulwark,if=holy_power.deficit>=3&cooldown.holy_bulwark.charges_fractional>=1.8&lastcast.holy_light>gcd*0.30
     - holy_shock,if=holy_power.deficit>=1&cooldown.holy_shock.charges>=1.8&target.enemy&lastcast.holy_light>gcd*0.30&config.holy_shock_dps
     - hammer_of_wrath,if=((holy_power.deficit>=1&buff.infusion_of_light.down)|holy_power.deficit>=2)&target.enemy&lastcast.holy_light>gcd*0.30
     - judgment,if=((holy_power.deficit>=1&buff.infusion_of_light.down)|holy_power.deficit>=2)&target.enemy&lastcast.holy_light>gcd*0.30
