@@ -292,7 +292,7 @@ lists:
     - holy_prism,cycle=members,if=cycle.health.effective.pct<=config.emergency_healing&lastcast.holy_light>gcd*0.30&holy_power.deficit>=3
     - divine_toll,cycle=members,if=group.lowest.health.pct<=config.emergency_healing&lastcast.holy_light>gcd*0.30&holy_power.deficit>=3&(buff.divine_purpose.down|!talent.aurora.enabled)
     - aura_mastery,if=group.lowest.health.pct<=config.emergency_healing&lastcast.holy_light>gcd*0.30&holy_power.deficit>=3&talent.ringing_of_the_heavens.enabled&(buff.divine_purpose.down|!talent.aurora.enabled)&focus.range<=40&lastcast.holy_light>gcd*0.30
-    - holy_light,cycle=members,if=cycle.health.pct<=config.emergency_healing&buff.infusion_of_light.down&holy_power.deficit>=3&talent.divine_overload.enabled&lastcast.holy_light>gcd*0.30
+    - holy_light,cycle=members,if=cycle.health.pct<=config.emergency_healing&buff.infusion_of_light.down&holy_power.deficit>=3&lastcast.holy_light>gcd*0.30
 
     # AOE Healing
     - light_of_dawn,range_check=none,if=var.lod_herald&lastcast.holy_light>gcd*0.30
