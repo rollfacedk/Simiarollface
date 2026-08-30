@@ -279,8 +279,7 @@ lists:
     # Beacon of Virtue
     - beacon_of_virtue,if=group.count(!cycle.tank&cycle.health.effective.pct<=config.virtue_healing)>=config.virtue_healing_targets&lastcast.holy_light>gcd*0.30
 
-    # making sure holy shock keeps rolling
-    - holy_shock,cycle=members,if=(cycle.tank&cycle.health.pct<=config.holy_shock_healing_tank|!cycle.tank&cycle.health.pct<=config.holy_shock_healing)&holy_power.deficit>=1&cooldown.holy_shock.charges>=1.8&lastcast.holy_light>gcd*0.30
+    
 
     # Emergency Healing
     - holy_light,cycle=members,if=cycle.health.pct<=config.emergency_healing&buff.infusion_of_light.down&holy_power.deficit>=1&buff.hand_of_divinity.up&lastcast.holy_light>gcd*0.30
@@ -324,6 +323,7 @@ lists:
     - holy_light,cycle=members,if=cycle.health.effective.pct<=config.need_holy_light_healing&buff.infusion_of_light.down&holy_power.deficit>=3&lastcast.holy_light>gcd*0.30
     
     # Rotation
+    - holy_shock,cycle=members,if=(cycle.tank&cycle.health.pct<=config.holy_shock_healing_tank|!cycle.tank&cycle.health.pct<=config.holy_shock_healing)&holy_power.deficit>=1&cooldown.holy_shock.charges>=1.8&lastcast.holy_light>gcd*0.30
     - holy_shock,if=holy_power.deficit>=1&cooldown.holy_shock.charges>=1.8&target.enemy&lastcast.holy_light>gcd*0.30&config.holy_shock_dps
     - hammer_of_wrath,if=((holy_power.deficit>=1&buff.infusion_of_light.down)|holy_power.deficit>=2)&target.enemy&lastcast.holy_light>gcd*0.30
     - judgment,if=((holy_power.deficit>=1&buff.infusion_of_light.down)|holy_power.deficit>=2)&target.enemy&lastcast.holy_light>gcd*0.30
